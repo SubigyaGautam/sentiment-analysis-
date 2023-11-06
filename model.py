@@ -44,12 +44,19 @@ from collections import Counter
 file_path = 'logs/logfile.txt'
 training_file_path = 'logs/trainingData.txt'
 testing_file_path = 'logs/testingData.txt'
+tensor_data_file_path_train = 'logs/tesorDataTest.txt'
+tensor_data_file_path_test = 'logs/tesorDataTrain.txt'
+
+
 
 text_content = ''
 # Open the file in append mode
 log_file = open(file_path, 'a')
 log_file_training = open(training_file_path, 'a')
 log_file_testing = open(testing_file_path, 'a')
+log_file_tensor_train = open(tensor_data_file_path_train, 'a')
+log_file_tensor_test = open(tensor_data_file_path_test, 'a')
+
 
 
 # Log some initial content
@@ -386,6 +393,14 @@ batch_size = 50
 # making sure to SHUFFLE the data
 train_loader = DataLoader(train_data, shuffle=True, batch_size=batch_size)
 valid_loader = DataLoader(valid_data, shuffle=True, batch_size=batch_size)
+
+for data, label in train_data:
+    data_str = ' '.join([str(item.item()) for item in data])
+    log_file_tensor_train.write(f"{data_str}, {label.item()}\n")
+
+for data, label in valid_data:
+    data_str = ' '.join([str(item.item()) for item in data])
+    log_file_tensor_test.write(f"{data_str}, {label.item()}\n")
 
 # obtaining one batch of training data
 dataiter = iter(train_loader)
